@@ -13,7 +13,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={aca_logo} className="App-logo" alt="logo" />
-          <span id="logo_text">ACA</span>
+          <span className="logo_text">ACA</span>
           <h3>Class Roster</h3>
         </div>
         <p className="App-intro">
@@ -84,7 +84,7 @@ class Users extends Component {
     let workbook_url = `https://${user.login}.github.io/intro-workbook`;
     return <div key={key}>
       <div className="details">
-        <span id="username">{user.name} ({user.login})</span>
+        <span id="username">{`${user.name?user.name:''} (${user.login})`}</span>
       </div>
       <div className="userProfile grow pic" style={{marginTop:5}}>
         <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile image" /></a>

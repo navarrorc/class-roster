@@ -28,7 +28,7 @@ body {
   to { transform: rotate(360deg); }
 }
 
-#logo_text {
+.logo_text {
   /*see: http://bit.ly/2abZQSQ*/
   font-size: 1.5em;
   font-weight: bold;
