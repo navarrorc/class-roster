@@ -1,9 +1,11 @@
+// @flow
+
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'; // webpack feature
+import './App.css'; //webpack feature
 
 class App extends Component {
-  render() {
+  render():void {
     return (
       <div className="App">
         <div className="App-header">
