@@ -4,7 +4,7 @@ import Api from './services/api';
 import aca_logo from './images/aca_circle_logo_no_text.png';  // webpack feature, ignore flow
 import './App.css'; //webpack feature, ignore flow
 
-import mockData from './data/sample_data.json';
+// import mockData from './data/sample_data.json';
 
 
 class App extends Component {
@@ -52,10 +52,10 @@ class Users extends Component {
     this.items = [];
   } 
   componentDidMount() {
-    // this.students.forEach(student=>{        
-    //   this.processNextStudent(student);        
-    // });
-    this.setState({users:mockData});
+    this.students.forEach(student=>{        
+      this.processNextStudent(student);        
+    });
+    // this.setState({users:mockData});
     
   }
 
