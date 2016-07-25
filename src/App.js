@@ -82,22 +82,25 @@ class Users extends Component {
 
   displayUser(user, key) {
     let workbook_url = `https://${user.login}.github.io/intro-workbook`;
-    return <div key={key}>
-      <div className="details">
-        <span id="username">{`${user.name?user.name:''} (${user.login})`}</span>
+    return (
+      <div key={key}>
+        <div className="details">
+          <span id="username">{`${user.name?user.name:''} (${user.login})`}</span>
+        </div>
+        <div className="userProfile grow pic" style={{marginTop:5}}>
+          <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile image" /></a>
+        </div>            
       </div>
-      <div className="userProfile grow pic" style={{marginTop:5}}>
-        <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile image" /></a>
-      </div>
-            
-    </div>
+    )
   }
 
   render() {
     let users = this.state.users;
-    return <div className="students-container">
+    return (
+      <div className="students-container">
         {_.map(users, this.displayUser)}
-    </div>
+      </div>
+    )
   }
   
 }
