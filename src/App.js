@@ -17,15 +17,16 @@ class App extends Component {
           <h3>Class Roster</h3>
         </div>
         <p className="App-intro">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam, mollitia aliquam nam perferendis libero eum commodi facilis quos qui cupiditate atque praesentium earum, pariatur rerum reprehenderit saepe rem aspernatur quod.
+          This modern web application will be used to allow students to easily present their in-class work and homework assignments to the entire class.
+          The instructors computer will be use for the presentations.
         </p>
-        <Users/>        
+        <Users/>
       </div>
     );
   }
 }
 
-class Users extends Component {  
+class Users extends Component {
   constructor(props) {
     super(props)
     this.state = {users:[]};
@@ -50,13 +51,13 @@ class Users extends Component {
     //   'dianadiaz'
     // ];
     this.items = [];
-  } 
+  }
   componentDidMount() {
-    this.students.forEach(student=>{        
-      this.processNextStudent(student);        
+    this.students.forEach(student=>{
+      this.processNextStudent(student);
     });
     // this.setState({users:mockData});
-    
+
   }
 
   processResults() {
@@ -64,7 +65,7 @@ class Users extends Component {
     console.log(JSON.stringify(this.items,null,4));
     this.setState({users:this.items});
   }
-  processNextStudent(student) {    
+  processNextStudent(student) {
     let api = new Api();
     let url = `https://api.github.com/users/${student}?client_id=ba4115563d5eac4f65ba&client_secret=2db9542761f5548f101f8437b07d73cdcda457d6`;
     api.getGithubUser(url).then(data=>{
@@ -75,7 +76,7 @@ class Users extends Component {
       })
 
       if (this.items.length === this.students.length) {
-        this.processResults();    
+        this.processResults();
       }
     });
   }
@@ -89,7 +90,7 @@ class Users extends Component {
         </div>
         <div className="userProfile grow pic" style={{marginTop:5}}>
           <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile image" /></a>
-        </div>            
+        </div>
       </div>
     )
   }
@@ -102,7 +103,7 @@ class Users extends Component {
       </div>
     )
   }
-  
+
 }
 
 
