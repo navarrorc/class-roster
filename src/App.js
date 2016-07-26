@@ -8,25 +8,6 @@ import './App.css'; //webpack feature, ignore flow
 
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={aca_logo} className="App-logo" alt="logo" />
-          <span className="logo_text">ACA</span>
-          <h3>Class Roster</h3>
-        </div>
-        <p className="App-intro">
-          This modern web application will be used to allow students to easily present their in-class work and homework assignments to the entire class.
-          The instructors computer will be use for the presentations.
-        </p>
-        <Users/>
-      </div>
-    );
-  }
-}
-
-class Users extends Component {
   constructor(props) {
     super(props)
     this.state = {users:[]};
@@ -80,7 +61,25 @@ class Users extends Component {
       }
     });
   }
+  render() {
+    return (
+      <div className="App">
+        <div className="App-header">
+          <img src={aca_logo} className="App-logo" alt="logo" />
+          <span className="logo_text">ACA</span>
+          <h3>Class Roster</h3>
+        </div>
+        <p className="App-intro">
+          This modern web application will be used to allow students to easily present their in-class work and homework assignments to the entire class.
+          The instructors computer will be use for the presentations.
+        </p>
+        <Users users={this.state.users}/>
+      </div>
+    );
+  }
+}
 
+class Users extends Component {
   displayUser(user, key) {
     let workbook_url = `https://${user.login}.github.io/intro-workbook`;
     return (
@@ -96,7 +95,7 @@ class Users extends Component {
   }
 
   render() {
-    let users = this.state.users;
+    let users = this.props.users;
     return (
       <div className="students-container">
         {_.map(users, this.displayUser)}
