@@ -70,8 +70,7 @@ class App extends Component {
           <h3>Class Roster</h3>
         </div>
         <p className="App-intro">
-          This modern web application will be used to allow students to easily present their in-class work and homework assignments to the entire class.
-          The instructors computer will be use for the presentations.
+          Summer San Antonio 2016 - Intro 1 Students
         </p>
         <Users users={this.state.users}/>
       </div>
