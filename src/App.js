@@ -43,7 +43,7 @@ class App extends Component {
 
   processResults() {
     // data is ready to view
-    console.log(JSON.stringify(this.items,null,4));
+    // console.log(JSON.stringify(this.items,null,4));
     this.setState({users:this.items});
   }
   processNextStudent(student) {

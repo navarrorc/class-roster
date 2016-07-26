@@ -5,6 +5,7 @@
   "private": true,
   "devDependencies": {
     "babel-polyfill": "^6.9.1",
+    "isomorphic-fetch": "^2.2.1",
     "react-scripts": "0.1.0"
   },
   "dependencies": {
