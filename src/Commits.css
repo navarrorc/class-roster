@@ -12,6 +12,7 @@
 }
 
 .ReactModal__Content {
+  color: #000;
   transform: scale(0.5) rotateX(-30deg);
 }
 
