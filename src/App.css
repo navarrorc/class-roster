@@ -14,13 +14,14 @@ body {
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 160px;
   padding: 20px;
   color: white;
 }
 
 .App-intro {
-  font-size: 2em;
+  font-size: 1.5em;
+  margin: 20px;
 }
 
 @keyframes spin {
@@ -46,11 +47,19 @@ body {
 
 }
   .details {
-    /*position:absolute;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 28px;
+    font-size: 1em;
+    word-wrap: normal;
   }
-    .details {
-      font-size: 1em;
-      word-wrap: normal;
+    span.mega-octicon {
+      margin: 3px;
+      cursor: pointer;
+    }
+    span.mega-octicon:hover {
+      color: #F8B232;
     }
 
 
@@ -82,3 +91,10 @@ body {
   /*flex-direction: column;*/
   flex-wrap: wrap;
 }
+
+.tooltip .tooltip-inner {
+  color: #F8B232;
+  font-size: 1em;
+}
+
+

@@ -58,6 +58,7 @@ class App extends Component {
 
       if (this.items.length === this.students.length) {
         this.processResults();
+        $('[data-toggle="tooltip"]').tooltip() // initialize tooltip
       }
     });
   }
@@ -70,7 +71,7 @@ class App extends Component {
           <h3>Class Roster</h3>
         </div>
         <p className="App-intro">
-          Summer San Antonio 2016 - Intro 1 Students
+          San Antonio '16 - Summer Intro
         </p>
         <Users users={this.state.users}/>
       </div>
@@ -84,10 +85,12 @@ class Users extends Component {
     return (
       <div key={key}>
         <div className="details">
-          <span id="username">{`${user.name?user.name:''} (${user.login})`}</span>
+          <span className="mega-octicon octicon-git-commit" data-toggle="tooltip" data-placement="top" 
+            title="View Latest Commits (In Progress...)" ></span>            
+          <span id="username">{user.name} ({user.login})</span>
         </div>
-        <div className="userProfile grow pic" style={{marginTop:5}}>
-          <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile image" /></a>
+        <div className="userProfile grow pic" style={{marginTop:0}}>
+          <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile" /></a>
         </div>
       </div>
     )
