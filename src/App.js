@@ -13,7 +13,7 @@ import Commits from './Commits';
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {users:[], modalIsOpen: false};
+    this.state = {users:[], modalIsOpen: false, selectedUser: {}};
     this.students = [
       'khadijah17',
       'PAJARO1',
@@ -47,10 +47,8 @@ class App extends Component {
 
   }
 
-  openModal() {
-    
-    console.log('inside openModal()');
-    this.setState({modalIsOpen: true});
+  openModal(user) {
+    this.setState({modalIsOpen: true, selectedUser:user});
   }
 
   closeModal() {
@@ -79,7 +77,9 @@ class App extends Component {
     });
   }
   render() {
-    console.log('this.state.modalIsOpen', this.state.modalIsOpen);
+    // console.log('this.state.modalIsOpen', this.state.modalIsOpen);
+    let users = this.state.users;
+    let selectedUser = this.state.selectedUser;
     let modalIsOpen = this.state.modalIsOpen;
     return (
       <div className="App">
@@ -91,8 +91,8 @@ class App extends Component {
         <p className="App-intro">
           San Antonio '16 - Summer Intro
         </p>
-        <Users users={this.state.users} openModal={this.openModal} />
-        <Commits modalIsOpen={modalIsOpen} closeModal={this.closeModal} />
+        <Users users={users} openModal={this.openModal} />
+        <Commits modalIsOpen={modalIsOpen} selectedUser={selectedUser} closeModal={this.closeModal} />
       </div>
     );
   }
@@ -103,10 +103,10 @@ class Users extends Component {
     super(props);
 
     this.displayUser = this.displayUser.bind(this); // see: 'No Autobinding', http://bit.ly/2aQtFXH
-    this.showLatestCommits = this.showLatestCommits.bind(this); // see: 'No Autobinding', http://bit.ly/2aQtFXH
+    this.openModal = this.openModal.bind(this); // see: 'No Autobinding', http://bit.ly/2aQtFXH
   }
-  showLatestCommits() {
-    this.props.openModal();
+  openModal(user) {
+    this.props.openModal(user);
   }
 
   displayUser(user, key) {
@@ -115,7 +115,7 @@ class Users extends Component {
       <div key={key}>
         <div className="details">
           <span className="mega-octicon octicon-git-commit" data-toggle="tooltip" data-placement="top" 
-            title="View Latest Commits" onClick={this.showLatestCommits}></span>            
+            title="View Latest Commits" onClick={ ()=> {this.openModal({name:user.name, login:user.login})} } ></span>            
           <span id="username">{user.name} ({user.login})</span>
         </div>
         <div className="userProfile grow pic" style={{marginTop:0}}>
