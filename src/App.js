@@ -86,7 +86,7 @@ class Users extends Component {
       <div key={key}>
         <div className="details">
           <span className="mega-octicon octicon-git-commit" data-toggle="tooltip" data-placement="top" 
-            title="View Latest Commits (In Progress...)" ></span>            
+            title="View Latest Commits" ></span>            
           <span id="username">{user.name} ({user.login})</span>
         </div>
         <div className="userProfile grow pic" style={{marginTop:0}}>
