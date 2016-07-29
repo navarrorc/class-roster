@@ -1,3 +1,5 @@
+/* global $ */
+
 import React, { Component } from 'react';
 import _ from 'lodash';
 import Api from './services/api';
@@ -41,10 +43,9 @@ class App extends Component {
 
   }
 
-  processResults() {
-    // data is ready to view
-    // console.log(JSON.stringify(this.items,null,4));
-    this.setState({users:this.items});
+  processResults() {    
+    let sorted = _.sortBy(this.items, ['created_at']);   
+    this.setState({users:sorted});
   }
   processNextStudent(student) {
     let api = new Api();
@@ -53,7 +54,8 @@ class App extends Component {
       this.items.push({
         name: data.name,
         avatar: data.avatar_url,
-        login: data.login
+        login: data.login,
+        created_at: data.created_at
       })
 
       if (this.items.length === this.students.length) {
