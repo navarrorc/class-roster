@@ -1,16 +1,19 @@
+/* global $ */
+
 import React, { Component } from 'react';
 import _ from 'lodash';
 import Api from './services/api';
-import aca_logo from './images/aca_circle_logo_no_text.png';  // webpack feature, ignore flow
-import './App.css'; //webpack feature, ignore flow
+import aca_logo from './images/aca_circle_logo_no_text.png';
+import './App.css';
 
 // import mockData from './data/sample_data.json';
+import Commits from './Commits';
 
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {users:[]};
+    this.state = {users:[], modalIsOpen: false, selectedUser: {}};
     this.students = [
       'khadijah17',
       'PAJARO1',
@@ -24,14 +27,17 @@ class App extends Component {
       'Stacihs',
       'robertowebdev',
       'Btace13',
-      'Paxman23l'
-
+      'Paxman23l',
+      'bbaic'
     ];
     // this.students = [
     //   'robertowebdev',
     //   'dianadiaz'
     // ];
     this.items = [];
+
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
   componentDidMount() {
     this.students.forEach(student=>{
@@ -41,10 +47,17 @@ class App extends Component {
 
   }
 
-  processResults() {
-    // data is ready to view
-    // console.log(JSON.stringify(this.items,null,4));
-    this.setState({users:this.items});
+  openModal(user) {
+    this.setState({modalIsOpen: true, selectedUser:user});
+  }
+
+  closeModal() {
+    this.setState({modalIsOpen: false});
+  }
+
+  processResults() {    
+    let sorted = _.sortBy(this.items, ['created_at']);   
+    this.setState({users:sorted});
   }
   processNextStudent(student) {
     let api = new Api();
@@ -53,15 +66,21 @@ class App extends Component {
       this.items.push({
         name: data.name,
         avatar: data.avatar_url,
-        login: data.login
+        login: data.login,
+        created_at: data.created_at
       })
 
       if (this.items.length === this.students.length) {
         this.processResults();
+        $('[data-toggle="tooltip"]').tooltip() // initialize tooltip
       }
     });
   }
   render() {
+    // console.log('this.state.modalIsOpen', this.state.modalIsOpen);
+    let users = this.state.users;
+    let selectedUser = this.state.selectedUser;
+    let modalIsOpen = this.state.modalIsOpen;
     return (
       <div className="App">
         <div className="App-header">
@@ -70,24 +89,37 @@ class App extends Component {
           <h3>Class Roster</h3>
         </div>
         <p className="App-intro">
-          Summer San Antonio 2016 - Intro 1 Students
+          San Antonio '16 - Summer Intro
         </p>
-        <Users users={this.state.users}/>
+        <Users users={users} openModal={this.openModal} />
+        <Commits modalIsOpen={modalIsOpen} selectedUser={selectedUser} closeModal={this.closeModal} />
       </div>
     );
   }
 }
 
 class Users extends Component {
+  constructor(props) {
+    super(props);
+
+    this.displayUser = this.displayUser.bind(this); // see: 'No Autobinding', http://bit.ly/2aQtFXH
+    this.openModal = this.openModal.bind(this); // see: 'No Autobinding', http://bit.ly/2aQtFXH
+  }
+  openModal(user) {
+    this.props.openModal(user);
+  }
+
   displayUser(user, key) {
     let workbook_url = `https://${user.login}.github.io/intro-workbook`;
     return (
       <div key={key}>
         <div className="details">
-          <span id="username">{`${user.name?user.name:''} (${user.login})`}</span>
+          <span className="mega-octicon octicon-git-commit" data-toggle="tooltip" data-placement="top" 
+            title="View Latest Commits" onClick={ ()=> {this.openModal({name:user.name, login:user.login})} } ></span>            
+          <span id="username">{user.name} ({user.login})</span>
         </div>
-        <div className="userProfile grow pic" style={{marginTop:5}}>
-          <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile image" /></a>
+        <div className="userProfile grow pic" style={{marginTop:0}}>
+          <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile" /></a>
         </div>
       </div>
     )
