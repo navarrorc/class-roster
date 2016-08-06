@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Api from './services/api';
 import aca_logo from './images/aca_circle_logo_no_text.png';
 import './App.css';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 // import mockData from './data/sample_data.json';
 import Commits from './Commits';
@@ -13,7 +14,7 @@ import Commits from './Commits';
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {users:[], modalIsOpen: false, selectedUser: {}};
+    this.state = { users: [], modalIsOpen: false, selectedUser: {} };
     this.students = [
       'khadijah17',
       'PAJARO1',
@@ -40,7 +41,7 @@ class App extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
   componentDidMount() {
-    this.students.forEach(student=>{
+    this.students.forEach(student => {
       this.processNextStudent(student);
     });
     // this.setState({users:mockData});
@@ -48,21 +49,21 @@ class App extends Component {
   }
 
   openModal(user) {
-    this.setState({modalIsOpen: true, selectedUser:user});
+    this.setState({ modalIsOpen: true, selectedUser: user });
   }
 
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState({ modalIsOpen: false });
   }
 
-  processResults() {    
-    let sorted = _.sortBy(this.items, ['created_at']);   
-    this.setState({users:sorted});
+  processResults() {
+    let sorted = _.sortBy(this.items, ['created_at']);
+    this.setState({ users: sorted });
   }
   processNextStudent(student) {
     let api = new Api();
     let url = `https://api.github.com/users/${student}?client_id=ba4115563d5eac4f65ba&client_secret=2db9542761f5548f101f8437b07d73cdcda457d6`;
-    api.getGithubUser(url).then(data=>{
+    api.getGithubUser(url).then(data => {
       this.items.push({
         name: data.name,
         avatar: data.avatar_url,
@@ -72,7 +73,6 @@ class App extends Component {
 
       if (this.items.length === this.students.length) {
         this.processResults();
-        $('[data-toggle="tooltip"]').tooltip() // initialize tooltip
       }
     });
   }
@@ -111,14 +111,23 @@ class Users extends Component {
 
   displayUser(user, key) {
     let workbook_url = `https://${user.login}.github.io/intro-workbook`;
+    // <OverlayTrigger placement="left" overlay={tooltip}>
+    //   <Button bsStyle="default">Holy guacamole!</Button>
+    // </OverlayTrigger>
+    const tooltip = (
+      <Tooltip id="tooltip"><strong>View Latest Commits</strong></Tooltip>
+    );
+
     return (
       <div key={key}>
         <div className="details">
-          <span className="mega-octicon octicon-git-commit" data-toggle="tooltip" data-placement="top" 
-            title="View Latest Commits" onClick={ ()=> {this.openModal({name:user.name, login:user.login})} } ></span>            
-          <span id="username">{user.name} ({user.login})</span>
+          <OverlayTrigger placement="top" overlay={tooltip}>
+            <span className="mega-octicon octicon-git-commit" onClick={ () => { this.openModal({ name: user.name, login: user.login }) } } ></span>
+          </OverlayTrigger>
+          
+          <span id="username">{user.name} ({user.login}) </span>
         </div>
-        <div className="userProfile grow pic" style={{marginTop:0}}>
+        <div className="userProfile grow pic" style={{ marginTop: 0 }}>
           <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile" /></a>
         </div>
       </div>
@@ -129,7 +138,7 @@ class Users extends Component {
     let users = this.props.users;
     return (
       <div className="students-container">
-        {_.map(users, this.displayUser)}
+        {_.map(users, this.displayUser) }
       </div>
     )
   }
