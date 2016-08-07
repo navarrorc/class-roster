@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import './Commits.css';
@@ -14,23 +16,8 @@ import './Commits.css';
 // };
 
 class Commits extends Component {
-  constructor(props) {
-    super(props);
-    // useless constructor
 
-    this.handleModalCloseRequest = this.handleModalCloseRequest.bind(this);
-
-  }
-
-  // onAfterOpen() {
-
-  // }
-
-  // onRequestClose() {
-
-  // }
-
-  handleModalCloseRequest() {
+  handleModalCloseRequest = ()=> {
     this.props.closeModal();
   }
 

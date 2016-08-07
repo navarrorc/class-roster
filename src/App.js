@@ -1,4 +1,4 @@
-/* global $ */
+// @flow
 
 import React, { Component } from 'react';
 import _ from 'lodash';
@@ -12,7 +12,11 @@ import Commits from './Commits';
 
 
 class App extends Component {
-  constructor(props) {
+  state: any;
+  students: string[];
+  items: any[];
+
+  constructor(props:any) {
     super(props)
     this.state = { users: [], modalIsOpen: false, selectedUser: {} };
     this.students = [
@@ -31,28 +35,22 @@ class App extends Component {
       'Paxman23l',
       'bbaic'
     ];
-    // this.students = [
-    //   'robertowebdev',
-    //   'dianadiaz'
-    // ];
-    this.items = [];
+    
+    this.items = []; // initialize items array
 
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
   }
   componentDidMount() {
     this.students.forEach(student => {
       this.processNextStudent(student);
     });
     // this.setState({users:mockData});
-
   }
 
-  openModal(user) {
+  openModal = (user:{name:string, login:string}) => {
     this.setState({ modalIsOpen: true, selectedUser: user });
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({ modalIsOpen: false });
   }
 
@@ -60,9 +58,9 @@ class App extends Component {
     let sorted = _.sortBy(this.items, ['created_at']);
     this.setState({ users: sorted });
   }
-  processNextStudent(student) {
+  processNextStudent(studentName:string) {
     let api = new Api();
-    let url = `https://api.github.com/users/${student}?client_id=ba4115563d5eac4f65ba&client_secret=2db9542761f5548f101f8437b07d73cdcda457d6`;
+    let url = `https://api.github.com/users/${studentName}?client_id=ba4115563d5eac4f65ba&client_secret=2db9542761f5548f101f8437b07d73cdcda457d6`;
     api.getGithubUser(url).then(data => {
       this.items.push({
         name: data.name,
@@ -99,21 +97,12 @@ class App extends Component {
 }
 
 class Users extends Component {
-  constructor(props) {
-    super(props);
-
-    this.displayUser = this.displayUser.bind(this); // see: 'No Autobinding', http://bit.ly/2aQtFXH
-    this.openModal = this.openModal.bind(this); // see: 'No Autobinding', http://bit.ly/2aQtFXH
-  }
-  openModal(user) {
+  openModal = (user) => {
     this.props.openModal(user);
   }
 
-  displayUser(user, key) {
+  displayUser = (user, key) => {
     let workbook_url = `https://${user.login}.github.io/intro-workbook`;
-    // <OverlayTrigger placement="left" overlay={tooltip}>
-    //   <Button bsStyle="default">Holy guacamole!</Button>
-    // </OverlayTrigger>
     const tooltip = (
       <Tooltip id="tooltip"><strong>View Latest Commits</strong></Tooltip>
     );
