@@ -105,7 +105,7 @@ class App extends Component {
                     <h3>Class Roster</h3>
                 </div>
                 <p className="App-intro">
-                    San Antonio '16 - Summer Intro
+                    San Antonio 2016 - Summer Intro
                 </p>
                 <Users users={users} openModal={this.openModal} />
                 <Commits modalIsOpen={modalIsOpen} selectedUser={selectedUser} closeModal={this.closeModal} />

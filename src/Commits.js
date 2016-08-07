@@ -16,7 +16,6 @@ import './Commits.css';
 // };
 
 type SelectedUserProperties = {
-    
     name: string,
     login: string
 }
