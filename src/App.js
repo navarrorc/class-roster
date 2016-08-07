@@ -11,14 +11,35 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Commits from './Commits';
 
 
-class App extends Component {
-  state: any;
-  students: string[];
-  items: any[];
+type UserProperties = {
+  name: string,
+  avatar: string,
+  login: string,
+  created_at: string;
+}
 
-  constructor(props:any) {
+type SelectedUserProperties = {
+  name: string,
+  login: string
+}
+
+class App extends Component {
+  /* Types */
+  state: { 
+    users: Array<UserProperties>, 
+    modalIsOpen: boolean, 
+    selectedUser: SelectedUserProperties 
+  }
+  students: Array<string> = [];
+  items: Array<UserProperties> = [];
+
+  constructor(props:{}) {
     super(props)
-    this.state = { users: [], modalIsOpen: false, selectedUser: {} };
+    let users = [],
+        modalIsOpen = false,
+        selectedUser = { name:'', login:'' };
+
+    this.state = { users, modalIsOpen, selectedUser };
     this.students = [
       'khadijah17',
       'PAJARO1',
@@ -35,9 +56,6 @@ class App extends Component {
       'Paxman23l',
       'bbaic'
     ];
-    
-    this.items = []; // initialize items array
-
   }
   componentDidMount() {
     this.students.forEach(student => {
@@ -46,7 +64,7 @@ class App extends Component {
     // this.setState({users:mockData});
   }
 
-  openModal = (user:{name:string, login:string}) => {
+  openModal = (user:SelectedUserProperties) => {
     this.setState({ modalIsOpen: true, selectedUser: user });
   }
 
@@ -55,8 +73,8 @@ class App extends Component {
   }
 
   processResults() {
-    let sorted = _.sortBy(this.items, ['created_at']);
-    this.setState({ users: sorted });
+    let users: Array<UserProperties> = _.sortBy(this.items, ['created_at']);
+    this.setState({ users });
   }
   processNextStudent(studentName:string) {
     let api = new Api();
@@ -97,12 +115,21 @@ class App extends Component {
 }
 
 class Users extends Component {
-  openModal = (user) => {
+  /* Types */
+  props:{ 
+    users: Array<UserProperties>, 
+    openModal: (user:SelectedUserProperties) => void 
+  }
+
+  openModal = (user:SelectedUserProperties) => {
     this.props.openModal(user);
   }
 
-  displayUser = (user, key) => {
-    let workbook_url = `https://${user.login}.github.io/intro-workbook`;
+  displayUser = (user:UserProperties, key:number) => {
+    let name = user.name,
+        login = user.login,
+        avatar = user.avatar,
+        workbook_url = `https://${user.login}.github.io/intro-workbook`;
     const tooltip = (
       <Tooltip id="tooltip"><strong>View Latest Commits</strong></Tooltip>
     );
@@ -111,13 +138,15 @@ class Users extends Component {
       <div key={key}>
         <div className="details">
           <OverlayTrigger placement="top" overlay={tooltip}>
-            <span className="mega-octicon octicon-git-commit" onClick={ () => { this.openModal({ name: user.name, login: user.login }) } } ></span>
+            <span className="mega-octicon octicon-git-commit" 
+                  onClick={ () => { this.openModal({ name, login }) } } >
+            </span>                   
           </OverlayTrigger>
           
-          <span id="username">{user.name} ({user.login}) </span>
+          <span id="username">{name} ({login}) </span>
         </div>
         <div className="userProfile grow pic" style={{ marginTop: 0 }}>
-          <a href={workbook_url} target="_blank"><img src={user.avatar}  alt="profile" /></a>
+          <a href={workbook_url} target="_blank"><img src={avatar}  alt="profile" /></a>
         </div>
       </div>
     )
@@ -133,6 +162,5 @@ class Users extends Component {
   }
 
 }
-
 
 export default App;

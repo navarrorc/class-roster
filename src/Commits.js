@@ -15,17 +15,26 @@ import './Commits.css';
 //   }
 // };
 
+type SelectedUserProperties = {
+  name: string,
+  login: string
+}
+
 class Commits extends Component {
+  props: { 
+    modalIsOpen: boolean, 
+    closeModal: () => void, 
+    selectedUser: SelectedUserProperties 
+  }
 
   handleModalCloseRequest = ()=> {
     this.props.closeModal();
   }
 
   render() {
-    let modalIsOpen = this.props.modalIsOpen;
-    let selectedUser = this.props.selectedUser;
-    console.log('selectedUser', selectedUser);
-    // console.log('this.props.modalIsOpen', modalIsOpen);
+    let modalIsOpen = this.props.modalIsOpen,
+        name = this.props.selectedUser.name,
+        login = this.props.selectedUser.login;
 
     return (
       <div>
@@ -42,7 +51,7 @@ class Commits extends Component {
                 <span aria-hidden="true">&times;</span>
                 <span className="sr-only">Close</span>
               </button>
-              <h4 className="modal-title">{selectedUser.name} ({selectedUser.login})</h4>
+              <h4 className="modal-title">{name} ({login})</h4>
             </div>
             <div className="modal-body">
               <h4>Really long content...</h4>
